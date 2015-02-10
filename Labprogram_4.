@@ -1,0 +1,84 @@
+import javax.swing.*;
+
+public class Lab6 {
+
+	//Declaring and initializing a number array of size 15 to be used for this program.
+	public static int[] numArray = new int[15];
+	
+	public static void main(String[] args) {
+	
+		// Invoking the inputFromFile method and store the value returned from that method in an integer variable 
+		// which represent the length of the array that has been filled.
+		int subArraylength = inputFromFile(args[0], numArray);
+		
+		// Invoking the sum method and storing it in the sumResult variable.
+		int sumResult = sum(numArray, subArraylength);
+		// Invoking the average method and storing it in the sumResult variable.
+		int averageResult = average (numArray, subArraylength);
+			
+		//Displaying the final output - sum and average of the numbers.
+		JOptionPane.showMessageDialog(null, "The sum of all integers is  " + sumResult + ".");
+		JOptionPane.showMessageDialog(null, "The average of all integers is  " + averageResult + ".");
+
+		
+	} //main
+	
+	
+	/**	Read the inputfile using the TextFileInput class and store all the strings in the file into the int array.
+	*	Method terminates immediately if the string array created is less than the number of string to be stored
+	*   
+	*	@param filename		filename of the input file
+	*	@param wordArray	empty int array that is to be filled.
+	*	@return 			integer value which represent the number of strings filled in the string array.
+	*/
+	public static int inputFromFile(String lab6input, int[] numArray){
+		TextFileInput in = new TextFileInput("lab6input.txt");
+		int lengthFilled = 0;
+		String line = in.readLine();
+
+		while ( lengthFilled < numArray.length && line != null ) {
+			numArray[lengthFilled++] = Integer.parseInt(line);		
+				//IMPORTANT: all the lines read in are ALWAYS strings!
+				// Utilizing the Integer.parseInt() method, it converts the string representing a number into a real number that can be calculated!
+			line = in.readLine();
+		} // while
+
+		if ( line != null ) {
+			System.out.println("File contains too many numbers.");
+			System.out.println("This program can process only " + numArray.length + " numbers.");
+			System.exit(1);
+		} // if 
+
+		in.close();
+		return lengthFilled; 
+	} // method inputFromFile 
+	
+	
+	/**	Calculate the average of all the numbers in the array, and returns the average after the calculation.
+	*   
+	*	@param myArray		number array containing all the numbers
+	*	@param myArraySize	size the array that is already filled
+	*	@return 			number representing the average.
+	*/
+	public static int average (int[] myArray, int myArraySize) {
+		// Utilizing the sum method to perform my average calculation, do not need to do summing again.
+		int sumResult = sum(myArray, myArraySize);
+		int averageResult = sumResult/myArraySize;	//Calculating the average based on the number summed.
+		return averageResult;
+	}
+	
+	/**	Calculate the sum of all the numbers in the array, and returns the sum after the calculation.
+	*   
+	*	@param myArray		number array containing all the numbers
+	*	@param myArraySize	size the array that is already filled
+	*	@return 			number representing the sum.
+	*/
+	public static int sum (int[] myArray, int myArraySize) {
+		int sum = 0;
+		// The loop structure goes through every item on the array ONLY UP TO the length filled, and sum all the numbers in the array.
+		for (int i = 0; i < myArraySize; ++i)
+			sum += myArray[i];
+		return sum;
+	}//sum
+	
+} // class Lab4Program1
